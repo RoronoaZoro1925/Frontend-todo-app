@@ -10,7 +10,16 @@
     border-width: 5px;
 }
 
+.resetButton{
+    color: brown;
+}
+
 .count{
-    font-size: 100px;
+    font-size: 50px;
     padding: auto;
+}
+
+.totalCount{
+    color: violet;
+    font-size: 100px;
 }
