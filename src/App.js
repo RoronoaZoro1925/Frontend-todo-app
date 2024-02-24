@@ -6,11 +6,7 @@ function App()
   return(
     <div className="App">
     <LearningComponent/>
-
-    </div>
-  )
-  
+  </div>
+  )  
 }
-
-
 export default App;
