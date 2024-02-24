@@ -7,3 +7,12 @@ export default class FourthComponent extends Component
   )
 }
 }
+
+export class FifthComponent extends Component
+{
+  render(){
+  return (
+    <div className='FifthComponent'>Fifth Component</div>
+  )
+}
+}
