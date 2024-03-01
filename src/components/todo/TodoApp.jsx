@@ -1,17 +1,21 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import './TodoApp.css'
 export default function TodoApp() {
     return (
         <div className="TodoApp">
+            <HeaderComponent/>
             <BrowserRouter>
                 <Routes>
-                <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='/' element={<LoginComponent />}></Route>
                     <Route path='/login' element={<LoginComponent />}></Route>
                     <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
+                    <Route path='/todos' element={<ListTodosComponent />}></Route>
+                    <Route path='/logout' element={<LogoutComponent />}></Route>
                     <Route path='*' element={<ErrorComponent />}></Route>
                 </Routes>
-            </BrowserRouter>   
+            </BrowserRouter>
+            <FooterComponent/>
         </div>
     )
 
@@ -96,11 +100,14 @@ function LoginComponent() {
 
 
 function WelcomeComponent() {
-    const {username} = useParams()
+    const { username } = useParams()
     console.log(username)
     return (
         <div className="Welcome">
             Welcome {username}
+            <div>
+                {username} Tere Kaam <Link to='/todos'>Yaha Ja</Link>
+            </div>
         </div>
     )
 
@@ -110,6 +117,99 @@ function ErrorComponent() {
     return (
         <div className="Error">
             <h1>Sorry. Tu naya aaya hai yaha</h1>
+        </div>
+    )
+
+}
+
+function ListTodosComponent() {
+    const aaj =  new Date()
+
+    const kabtakKarega = new Date(aaj.getFullYear()+10, aaj.getMonth(), aaj.getDate())
+    const todos = [
+        { id: 1, description: 'Khao', done:false, kabtakKarega:kabtakKarega },
+        { id: 2, description: 'Talwar Chalao', done:false, kabtakKarega:kabtakKarega },
+        { id: 3, description: 'Rasta bhul jao', done:false, kabtakKarega:kabtakKarega },
+        { id: 4, description: 'Puri crew ko tension mein daal do', done:false, kabtakKarega:kabtakKarega },
+        { id: 5, description: 'so jao', done:false, kabtakKarega:kabtakKarega }
+    ]
+    return (
+        <div className="ListTodosComponent">
+            <h1>Yeh sab karna hai</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                id
+                            </td>
+                            <td>
+                                description
+                            </td>
+                            <td>
+                                Hoagaya?
+                            </td>
+                            <td>
+                                Kab tak karega
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map(
+                                todo => (
+                                    <tr key={todo.id}>
+                                        <td>
+                                            {todo.id}
+                                        </td>
+                                        <td>
+                                            {todo.description}
+                                        </td>
+                                        <td>
+                                            {todo.done.toString()}
+                                        </td>
+                                        <td>
+                                            {todo.kabtakKarega.toDateString()}
+                                        </td>
+                                    </tr>
+
+                                )
+                            )
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+
+}
+
+function HeaderComponent() {
+    return(
+        <div className='header'>
+            Header <hr/>
+
+        </div>
+    )
+    
+}
+
+function FooterComponent() {
+    return(
+        <div className='header'>
+            <hr/> Footer
+
+        </div>
+    )
+    
+}
+
+function LogoutComponent() {
+    return (
+        <div className="Error">
+            <h1>Nikal Pehli Fursat Mein</h1>
         </div>
     )
 
