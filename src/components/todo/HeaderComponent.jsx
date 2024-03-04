@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom"
+import { useAuth } from "./security/AuthContext"
+
 
 export default function HeaderComponent() {
+
+    // const authContext = useContext(AuthContext)
+
+    const authContext = useAuth()
+
+    // console.log(authContext.number);
+
+
     return (
         <header className='header'>
             <div className="container">
