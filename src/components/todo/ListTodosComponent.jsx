@@ -1,7 +1,7 @@
 export default function ListTodosComponent() {
     const aaj = new Date()
 
-    const kabtakKarega = new Date(aaj.getFullYear() + 10, aaj.getMonth(), aaj.getDate())
+    const kabtakKarega = new Date(aaj.getFullYear(), aaj.getMonth(), aaj.getDate()+10)
     const todos = [
         { id: 1, description: 'Khao', done: false, kabtakKarega: kabtakKarega },
         { id: 2, description: 'Talwar Chalao', done: false, kabtakKarega: kabtakKarega },

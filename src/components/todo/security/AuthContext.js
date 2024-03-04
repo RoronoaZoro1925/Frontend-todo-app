@@ -6,15 +6,36 @@ export const useAuth = () => useContext(AuthContext)
 
 export default function AuthProvider({children}) {
 
-    const [number, setNumber] = useState(0)
+    // const [number, setNumber] = useState(0)
 
-    setInterval(
+    const [isAuthenticated, setAuthenticated] = useState(false)
+
+    /* setInterval(
         () => setNumber(number+1),
-        1000
-    )
+        10000
+    ) */
+
+    // const valueTobeShared = {number, isAuthenticated, setAuthenticated}
+
+    function login(username, password) {
+        if (username === 'Zoro' && password === 'pass') {
+            setAuthenticated(true)
+            return true
+        }
+        else {
+            setAuthenticated(false)
+            return false
+
+        }
+        
+    }
+
+    function logout() {
+        setAuthenticated(false)
+    }
 
     return(
-        <AuthContext.Provider value={{number}}>
+        <AuthContext.Provider value={{isAuthenticated, login,logout}}>
             {children}
         </AuthContext.Provider>
 
