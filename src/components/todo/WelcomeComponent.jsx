@@ -13,7 +13,7 @@ export default function WelcomeComponent() {
     // const encoded = Buffer.from(username + ':' + password).toString('base64');
     
     function callHelloWorldRestApi() {
-        axios.get('http://localhost:8080/hello-world-bean')
+        // axios.get('http://localhost:8080/hello-world')
         retrieveHelloWorld()
         .then(
             (response)=>successfulResponse(response)
