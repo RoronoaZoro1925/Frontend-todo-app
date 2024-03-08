@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 import { retrieveAllCrewmates } from "./api/StrawHatApiService copy"
+import { deleteCrewmatesTodo } from "./api/StrawHatApiService copy"
 export default function ListTodosComponent() {
     const aaj = new Date()
 
     const targetDate = new Date(aaj.getFullYear(), aaj.getMonth(), aaj.getDate() + 10)
 
     const [todos, setTodos] = useState([])
+
+    const [message, setMessage] = useState(null)
 
 
     /*  const todos = [
@@ -17,7 +20,7 @@ export default function ListTodosComponent() {
      ] */
 
     useEffect(
-        () => refreshTodos(),[]
+        () => refreshTodos(), []
     )
 
     function refreshTodos() {
@@ -31,6 +34,19 @@ export default function ListTodosComponent() {
 
     }
 
+    function deleteTodo(id) {
+        console.log('clicked' + id)
+        deleteCrewmatesTodo('Zoro',id)
+        .then(
+            ()=>{
+                setMessage(`${id} Yeh nahi karunga`)
+                refreshTodos()
+            }
+
+        )
+        .catch(error=>console.log(error))
+    }
+
 
 
 
@@ -38,22 +54,20 @@ export default function ListTodosComponent() {
     return (
         <div className="container">
             <h1>Yeh sab karna hai</h1>
+            {message && <div className="alert alert-warning">{message}</div>}
             <div>
                 <table className='table'>
                     <thead>
                         <tr>
-                            <td>
-                                Id
-                            </td>
-                            <td>
+                            <th>
                                 description
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 Hoagaya?
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 Kab tak karega
-                            </td>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,9 +75,6 @@ export default function ListTodosComponent() {
                             todos.map(
                                 todo => (
                                     <tr key={todo.id}>
-                                        <td>
-                                            {todo.id}
-                                        </td>
                                         <td>
                                             {todo.description}
                                         </td>
@@ -75,6 +86,12 @@ export default function ListTodosComponent() {
                                         </td> */}
                                         <td>
                                             {todo.targetDate.toString()}
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-warning"
+                                                onClick={() => deleteTodo(todo.id)}>
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
 

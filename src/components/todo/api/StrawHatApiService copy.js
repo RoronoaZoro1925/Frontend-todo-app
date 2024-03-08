@@ -9,3 +9,5 @@ const apiClient = axios.create(
 )
 
 export const retrieveAllCrewmates = (username)=> apiClient.get(`/users/${username}/todos`)
+
+export const deleteCrewmatesTodo = (username, id)=> apiClient.delete(`/users/${username}/todos/${id}`)
