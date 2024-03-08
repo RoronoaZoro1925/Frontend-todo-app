@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom"
 
 import { useState } from "react"
 import { retrieveHelloWorld } from "./api/HelloWorldApiService"
-import axios from "axios"
+
 
 export default function WelcomeComponent() {
     const { username } = useParams()
