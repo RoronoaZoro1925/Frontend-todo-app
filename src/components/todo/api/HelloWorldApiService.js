@@ -16,3 +16,9 @@ export const retrieveHelloWorld = ()=> apiClient.get('/hello-world',{
         Authorization: 'Basic Wm9ybzpwYXNz'
     }
 })
+
+export const basicAuthentication = (token)=> apiClient.get('/basicauth',{
+    headers:{
+        Authorization: token
+    }
+})
