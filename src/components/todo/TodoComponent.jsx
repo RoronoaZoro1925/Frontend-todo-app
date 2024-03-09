@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom"
-import { retrieveCrewmatesTodo } from "./api/StrawHatApiService copy"
+import { useNavigate, useParams } from "react-router-dom"
+import { retrieveCrewmatesTodo, updateCrewmatesTodo } from "./api/StrawHatApiService copy"
 import { useAuth } from "./security/AuthContext"
 import { useEffect, useState } from "react"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -15,6 +15,8 @@ export default function TodoComponent() {
     const authContext = useAuth()
 
     const username = authContext.username
+
+    const navigate = useNavigate();
 
     useEffect(
         () => retrieveTodo(),
@@ -34,15 +36,35 @@ export default function TodoComponent() {
 
     function onSubmit(values) {
         console.log(values)
+        const todo = {
+            id : id, 
+            username : username,
+            description : values.description,
+            targetDate : values.targetDate,
+            done : false
+        }
+        console.log(todo)
+        updateCrewmatesTodo(username, id, todo)
+        .then(response => {
+            navigate('/todos')
+            console.log(response)
+            // setDescription(response.data.description)
+            // setTargetDate(response.data.targetDate)
+        }
+        )
+        .catch(error => console.log(error))
     }
 
     function validate(values) {
         let errors = {
-            description: 'Sahi se form bhar',
-            targetDate: 'Time bhi dekh'
+            /* description: 'Sahi se form bhar',
+            targetDate: 'Time bhi dekh' */
         }
         if (values.description.length < 3) {
             errors.description = 'Soch ke form bhar'
+        }
+        if (values.targetDate == null) {
+            errors.description = 'Time toh dekh le ek baar'
         }
         console.log(values)
         return errors
