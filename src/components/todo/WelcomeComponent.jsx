@@ -2,19 +2,21 @@ import { Link, useParams } from "react-router-dom"
 
 import { useState } from "react"
 import { retrieveHelloWorld } from "./api/HelloWorldApiService"
+import { useAuth } from "./security/AuthContext"
 
 
 export default function WelcomeComponent() {
     const { username } = useParams()
     console.log(username)
     const [message, setMessage] = useState(null)
+    const authContext = useAuth()
     // const axios = require('axios')
     // const password = 'root'
     // const encoded = Buffer.from(username + ':' + password).toString('base64');
     
     function callHelloWorldRestApi() {
         // axios.get('http://localhost:8080/hello-world')
-        retrieveHelloWorld()
+        retrieveHelloWorld(authContext.token)
         .then(
             (response)=>successfulResponse(response)
         )
