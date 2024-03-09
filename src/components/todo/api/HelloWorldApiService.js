@@ -11,4 +11,8 @@ const apiClient = axios.create(
 }
 )
 
-export const retrieveHelloWorld = ()=> apiClient.get('/hello-world')
+export const retrieveHelloWorld = ()=> apiClient.get('/hello-world',{
+    headers:{
+        Authorization: 'Basic Wm9ybzpwYXNz'
+    }
+})

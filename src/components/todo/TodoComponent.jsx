@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { retrieveCrewmatesTodo, updateCrewmatesTodo } from "./api/StrawHatApiService copy"
+import { createCrewmatesTodo, retrieveCrewmatesTodo, updateCrewmatesTodo } from "./api/StrawHatApiService copy"
 import { useAuth } from "./security/AuthContext"
 import { useEffect, useState } from "react"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -24,35 +24,53 @@ export default function TodoComponent() {
     )
 
     function retrieveTodo() {
-        retrieveCrewmatesTodo(username, id)
-            .then(response => {
-                // console.log(response)
-                setDescription(response.data.description)
-                setTargetDate(response.data.targetDate)
-            }
-            )
-            .catch(error => console.log(error))
+        if (id != -1) {
+
+
+            retrieveCrewmatesTodo(username, id)
+                .then(response => {
+                    // console.log(response)
+                    setDescription(response.data.description)
+                    setTargetDate(response.data.targetDate)
+                }
+                )
+                .catch(error => console.log(error))
+        }
     }
 
     function onSubmit(values) {
         console.log(values)
         const todo = {
-            id : id, 
-            username : username,
-            description : values.description,
-            targetDate : values.targetDate,
-            done : false
+            id: id,
+            username: username,
+            description: values.description,
+            targetDate: values.targetDate,
+            done: false
         }
         console.log(todo)
-        updateCrewmatesTodo(username, id, todo)
-        .then(response => {
-            navigate('/todos')
-            console.log(response)
-            // setDescription(response.data.description)
-            // setTargetDate(response.data.targetDate)
+
+        if(id == -1){
+            createCrewmatesTodo(username, todo)
+            .then(response => {
+                navigate('/todos')
+                console.log(response)
+                // setDescription(response.data.description)
+                // setTargetDate(response.data.targetDate)
+            }
+            )
+            .catch(error => console.log(error))
         }
-        )
-        .catch(error => console.log(error))
+        else{
+        updateCrewmatesTodo(username, id, todo)
+            .then(response => {
+                navigate('/todos')
+                console.log(response)
+                // setDescription(response.data.description)
+                // setTargetDate(response.data.targetDate)
+            }
+            )
+            .catch(error => console.log(error))
+        }
     }
 
     function validate(values) {
@@ -63,7 +81,7 @@ export default function TodoComponent() {
         if (values.description.length < 3) {
             errors.description = 'Soch ke form bhar'
         }
-        if (values.targetDate == null) {
+        if (values.targetDate == null || values.targetDate=='') {
             errors.description = 'Time toh dekh le ek baar'
         }
         console.log(values)

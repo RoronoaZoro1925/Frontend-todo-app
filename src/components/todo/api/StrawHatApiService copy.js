@@ -15,3 +15,5 @@ export const deleteCrewmatesTodo = (username, id)=> apiClient.delete(`/users/${u
 export const retrieveCrewmatesTodo = (username, id)=> apiClient.get(`/users/${username}/todos/${id}`)
 
 export const updateCrewmatesTodo = (username, id, todo)=> apiClient.put(`/users/${username}/todos/${id}`, todo)
+
+export const createCrewmatesTodo = (username, todo)=> apiClient.post(`/users/${username}/todos`, todo)
