@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { basicAuthentication } from "../api/HelloWorldApiService";
+import { jwtAuthentication } from "../api/AuthenticationAPIService";
 import { apiClient } from "../api/ApiClient";
 
 export const AuthContext = createContext()
@@ -38,7 +38,7 @@ export default function AuthProvider({ children }) {
         
     } */
 
-    async function login(username, password) {
+    /* async function login(username, password) {
         const baToken = 'Basic ' + window.btoa(username + ":" + password)
         try {
             const respone = await basicAuthentication(baToken)
@@ -50,6 +50,35 @@ export default function AuthProvider({ children }) {
                     (config)=>{
                         console.log('intercepting and adding a token')
                         config.headers.Authorization=baToken
+                        return config
+                    }
+                )
+                return true
+            }
+            else {
+                logout()
+                return false
+
+            }
+        } catch (error) {
+            logout()
+            return false
+        }
+
+    } */
+
+    async function login(username, password) {
+        try {
+            const respone = await jwtAuthentication(username, password)
+            if (respone.status == 200) {
+                const jwtToken = 'Bearer ' + respone.data.token
+                setAuthenticated(true)
+                setUsername(username)
+                setToken(jwtToken)
+                apiClient.interceptors.request.use(
+                    (config)=>{
+                        console.log('intercepting and adding a token')
+                        config.headers.Authorization=jwtToken
                         return config
                     }
                 )
